@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ImageRepository extends CrudRepository<Image,Long> {
-    @Query("SELECT s FROM Image s LEFT JOIN FETCH s.tags WHERE s.id in (SELECT t.image.id from Tag t where t.tag in :tags)")
+    @Query("SELECT s FROM Image s JOIN FETCH s.tags WHERE s.id in (SELECT t.image.id from Tag t where t.tag in :tags)")
     List<Image> findByTag(@Param("tags") List<String> tags);
 }
