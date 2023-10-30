@@ -41,7 +41,6 @@ public class ImageController {
             @RequestParam(name = "imageUrl", required = false) String imageUrl,
             @RequestParam(name = "objectEnabled", required = false) boolean objectEnabled
     ) throws IOException {
-        System.out.println("postImage");
         if (imageFile == null && imageUrl == null) {
             throw new ClientException(HttpStatus.BAD_REQUEST, "Please provide imageUrl or upload an image");
         }
