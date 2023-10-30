@@ -25,4 +25,11 @@ public class Image implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "image", fetch = FetchType.LAZY)
     private List<Tag> tags = new ArrayList<>();
 
+    public void addTags(List<Tag> tags) {
+        for (Tag tag: tags) {
+            tag.setImage(this);
+        }
+        this.setTags(tags);
+    }
+
 }

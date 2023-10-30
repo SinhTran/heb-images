@@ -54,7 +54,7 @@ public class ImageService {
         if (tagResults != null && tagResults.getResults() != null && tagResults.getResults().getImaggaTags() != null) {
             List<Tag> tags = tagResults.getResults().getImaggaTags().stream()
                     .map(tag -> new Tag(tag.getImaggaEnTag().getTag(), tag.getConfidence())).collect(Collectors.toList());
-            image.setTags(tags);
+            image.addTags(tags);
         }
         if (StringUtils.isBlank(label)) {
             if (CollectionUtils.isNotEmpty(image.getTags())) {
