@@ -27,4 +27,4 @@ Uses H2 database
 - Run command line `./gradlew bootRun` from Terminal
 
 ## Test
-Uses Postman collection created in test folder
+Uses Postman collection created in intTest folder
