@@ -43,7 +43,7 @@ public class ImageController {
     ) throws IOException {
         System.out.println("postImage");
         if (imageFile == null && imageUrl == null) {
-            throw new ClientException(HttpStatus.BAD_REQUEST, "Please provide imageUrl or upload a image");
+            throw new ClientException(HttpStatus.BAD_REQUEST, "Please provide imageUrl or upload an image");
         }
         ImageResponse response;
         if (imageFile != null) {
