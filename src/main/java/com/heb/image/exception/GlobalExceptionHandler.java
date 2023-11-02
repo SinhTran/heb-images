@@ -29,6 +29,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(exception.getCode().value(), exception.getMessage()), exception.getCode());
     }
 
+    @ExceptionHandler(value = ImageException.class)
+    public ResponseEntity<ErrorResponse> handleImageException(ImageException exception, WebRequest request) {
+        log.log(Level.SEVERE, "exception caught", exception);
+        return new ResponseEntity<>(new ErrorResponse(exception.getCode().value(), exception.getMessage()), exception.getCode());
+    }
+
     @ExceptionHandler(value = ImaggaServerException.class)
     public ResponseEntity<ErrorResponse> handleImaggaException(ImaggaServerException exception, WebRequest request) {
         log.log(Level.SEVERE, "exception caught", exception);

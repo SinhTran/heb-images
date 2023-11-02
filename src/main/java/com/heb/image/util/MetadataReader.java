@@ -1,10 +1,10 @@
 package com.heb.image.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.heb.image.exception.ImageException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.NamedNodeMap;
@@ -38,8 +38,13 @@ public class MetadataReader {
     }
 
     public String processMetadata(String imageUrl) throws IOException {
-        URL url = new URL(imageUrl);
-        BufferedImage img = ImageIO.read(url);
+        BufferedImage img;
+        try {
+            URL url = new URL(imageUrl);
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            throw new ImageException(e, HttpStatus.BAD_REQUEST, "Unable to read image from url " + imageUrl);
+        }
         File file = new File(TEMP_FILE);
         ImageIO.write(img, "jpg", file);
         String metadata = readMetadata(file);
@@ -47,8 +52,7 @@ public class MetadataReader {
         return metadata;
     }
 
-
-    private String readMetadata(File file) throws JsonProcessingException {
+    private String readMetadata(File file) {
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode metadataArray = objectMapper.createArrayNode();
         try {
@@ -70,10 +74,10 @@ public class MetadataReader {
                     metadataArray.add(readRootMetadata(metadata.getAsTree(names[i])));
                 }
             }
+            return objectMapper.writeValueAsString(metadataArray);
         } catch (Exception e) {
             throw new ImageException(e);
         }
-        return objectMapper.writeValueAsString(metadataArray);
     }
 
     private ObjectNode readRootMetadata(Node root) {
